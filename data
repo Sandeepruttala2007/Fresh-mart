@@ -1,0 +1,59 @@
+{
+  "users": [
+    {
+      "id": "u-demo",
+      "name": "Aarav Sharma",
+      "email": "aarav@example.com",
+      "phone": "+91 98765 43210",
+      "password": "demo123",
+      "dob": "",
+      "gender": "",
+      "initials": "A"
+    }
+  ],
+  "orders": [
+    {
+      "id": "#FM-2026-0041",
+      "userEmail": "aarav@example.com",
+      "itemsText": "Bananas, Milk, Eggs, Bread",
+      "total": 287,
+      "status": "delivered"
+    },
+    {
+      "id": "#FM-2026-0039",
+      "userEmail": "aarav@example.com",
+      "itemsText": "Mango, Peanut Butter, Green Tea",
+      "total": 337,
+      "status": "transit"
+    }
+  ],
+  "savedCards": {
+    "aarav@example.com": [
+      {
+        "id": "scard-1",
+        "icon": "💳",
+        "label": "VISA •••• 4242",
+        "sub": "Expires 08 / 27 · Aarav Sharma",
+        "isDefault": true
+      },
+      {
+        "id": "scard-2",
+        "icon": "💳",
+        "label": "Mastercard •••• 8891",
+        "sub": "Expires 03 / 26 · Aarav Sharma",
+        "isDefault": false
+      }
+    ]
+  },
+  "savedUpi": {
+    "aarav@example.com": [
+      {
+        "id": "supi-1",
+        "icon": "📱",
+        "label": "aarav@okaxis",
+        "sub": "GPay · Linked",
+        "isDefault": true
+      }
+    ]
+  }
+}

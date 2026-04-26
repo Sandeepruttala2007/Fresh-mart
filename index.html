@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FreshMart – Online Grocery</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+
+<header>
+  <div class="htop">
+    🚚 Free delivery on orders above ₹499 &nbsp;<b>LIMITED TIME</b>
+  </div>
+
+  <div class="hm">
+    <div class="logo">Fresh<s>Mart</s></div>
+
+    <div class="sb">
+      <input type="text" id="si" placeholder="Search groceries, fruits, vegetables…" oninput="hs()" />
+      <button>🔍</button>
+    </div>
+
+    <button class="loc-btn" onclick="openLocModal()">
+      <span class="pin">📍</span>
+      <span id="locLabel">Delhi NCR</span>
+      <span style="font-size:10px;opacity:.6">▼</span>
+    </button>
+
+    <div class="ha">
+      <a href="#" onclick="openAcc(event)" id="accLink">
+        <span class="ic">👤</span><span id="accLabel">Account</span>
+      </a>
+      <a href="#" class="cb" onclick="tc(event)">
+        🛒 Cart<span class="cbg" id="cbg">0</span>
+      </a>
+    </div>
+  </div>
+
+  <nav>
+    <div class="ni">
+      <a class="on" onclick="fc('all',this)">All</a>
+      <a onclick="fc('fruits',this)">🍎 Fruits</a>
+      <a onclick="fc('vegetables',this)">🥦 Vegetables</a>
+      <a onclick="fc('dairy',this)">🥛 Dairy</a>
+      <a onclick="fc('bakery',this)">🍞 Bakery</a>
+      <a onclick="fc('snacks',this)">🍿 Snacks</a>
+      <a onclick="fc('beverages',this)">🧃 Beverages</a>
+      <a onclick="fc('personal',this)">🧴 Personal Care</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <div class="hb">
+    <div class="hm2">
+      <span class="bdg">🎉 Mega Savings Week</span>
+      <h1>Fresh Groceries<br />Delivered in 30 Mins</h1>
+      <p>Shop from 5,000+ products with exclusive deals every day</p>
+      <button class="bw" onclick="document.getElementById('ps').scrollIntoView({behavior:'smooth'})">
+        Shop Now →
+      </button>
+    </div>
+
+    <div class="hs">
+      <div class="mb or">
+        <h3>Buy 2 Get 1 Free</h3>
+        <p>On all fresh fruits today</p>
+        <button class="bm" onclick="fc('fruits',null)">Grab Deal</button>
+        <span class="em">🍊</span>
+      </div>
+      <div class="mb pu">
+        <h3>Dairy Bonanza</h3>
+        <p>Up to 30% off on dairy</p>
+        <button class="bm" onclick="fc('dairy',null)">Shop Now</button>
+        <span class="em">🥛</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="os">
+    <span class="ol">🔥 TODAY'S OFFERS:</span>
+    <div class="ot"><span class="dt"></span>FRESHMART20 – 20% off first order</div>
+    <div class="ot"><span class="dt"></span>SAVE50 – ₹50 off on ₹499+</div>
+    <div class="ot"><span class="dt"></span>WEEKEND15 – 15% off weekends</div>
+    <div class="ot"><span class="dt"></span>FREE delivery on ₹299+</div>
+    <div class="ot"><span class="dt"></span>DAIRY10 – Extra 10% on dairy</div>
+  </div>
+
+  <section>
+    <div class="sh"><h2>Shop by Category</h2><a href="#">View All</a></div>
+    <div class="cg">
+      <div class="cp on" onclick="fc('all',null)"><span class="em">🛒</span><span>All Items</span></div>
+      <div class="cp" onclick="fc('fruits',null)"><span class="em">🍎</span><span>Fruits</span></div>
+      <div class="cp" onclick="fc('vegetables',null)"><span class="em">🥦</span><span>Vegetables</span></div>
+      <div class="cp" onclick="fc('dairy',null)"><span class="em">🥛</span><span>Dairy</span></div>
+      <div class="cp" onclick="fc('bakery',null)"><span class="em">🍞</span><span>Bakery</span></div>
+      <div class="cp" onclick="fc('snacks',null)"><span class="em">🍿</span><span>Snacks</span></div>
+      <div class="cp" onclick="fc('beverages',null)"><span class="em">🧃</span><span>Beverages</span></div>
+      <div class="cp" onclick="fc('personal',null)"><span class="em">🧴</span><span>Personal Care</span></div>
+    </div>
+  </section>
+
+  <div class="ds">
+    <div class="dh">
+      <div>
+        <h2>⚡ Flash Deals</h2>
+        <p style="font-size:12px;opacity:.7;margin-top:3px">Hurry! Limited stock at unbeatable prices</p>
+      </div>
+      <div class="tm">
+        <div class="tb"><div class="n" id="hrs">02</div><div class="l">HRS</div></div>
+        <div class="ts">:</div>
+        <div class="tb"><div class="n" id="mns">47</div><div class="l">MIN</div></div>
+        <div class="ts">:</div>
+        <div class="tb"><div class="n" id="scs">30</div><div class="l">SEC</div></div>
+      </div>
+    </div>
+
+    <div class="dp">
+      <div class="dc" onclick="ai(0)"><div class="em">🍌</div><div class="nm">Bananas (6 pcs)</div><div class="of">40% OFF</div><div class="sb2">₹29 instead of ₹49</div><div class="pb2"><div class="pf" style="width:72%"></div></div></div>
+      <div class="dc" onclick="ai(3)"><div class="em">🥛</div><div class="nm">Full Cream Milk 1L</div><div class="of">25% OFF</div><div class="sb2">₹52 instead of ₹69</div><div class="pb2"><div class="pf" style="width:55%"></div></div></div>
+      <div class="dc" onclick="ai(7)"><div class="em">🍫</div><div class="nm">Dark Chocolate Bar</div><div class="of">35% OFF</div><div class="sb2">₹65 instead of ₹99</div><div class="pb2"><div class="pf" style="width:38%"></div></div></div>
+      <div class="dc" onclick="ai(10)"><div class="em">🧃</div><div class="nm">Mixed Fruit Juice 1L</div><div class="of">30% OFF</div><div class="sb2">₹69 instead of ₹99</div><div class="pb2"><div class="pf" style="width:60%"></div></div></div>
+      <div class="dc" onclick="ai(5)"><div class="em">🍞</div><div class="nm">Whole Wheat Bread</div><div class="of">20% OFF</div><div class="sb2">₹35 instead of ₹44</div><div class="pb2"><div class="pf" style="width:80%"></div></div></div>
+    </div>
+  </div>
+
+  <section id="ps">
+    <div class="sh"><h2 id="pt">🛒 All Products</h2><a href="#">View All</a></div>
+    <div class="pg" id="grid"></div>
+  </section>
+
+  <section>
+    <div class="sh"><h2>🎟️ Available Coupons</h2></div>
+    <div class="kg">
+      <div class="kc" onclick="cc2('FRESHMART20')">
+        <div class="kl"><div class="kp">20%</div><div class="kt">OFF</div></div>
+        <div class="kds"></div>
+        <div class="kr"><div class="kco">FRESHMART20</div><div class="kd">20% off on your first order. No minimum value.</div><button class="kcp">Copy Code</button><div class="ke">Expires: 30 Apr 2026</div></div>
+      </div>
+      <div class="kc" onclick="cc2('SAVE50')">
+        <div class="kl" style="background:var(--o)"><div class="kp">₹50</div><div class="kt">OFF</div></div>
+        <div class="kds"></div>
+        <div class="kr"><div class="kco" style="color:var(--o)">SAVE50</div><div class="kd">Flat ₹50 off on orders above ₹499.</div><button class="kcp" style="background:var(--o)">Copy Code</button><div class="ke">Expires: 25 Apr 2026</div></div>
+      </div>
+      <div class="kc" onclick="cc2('WEEKEND15')">
+        <div class="kl" style="background:#7c3aed"><div class="kp">15%</div><div class="kt">OFF</div></div>
+        <div class="kds"></div>
+        <div class="kr"><div class="kco" style="color:#7c3aed">WEEKEND15</div><div class="kd">15% off every weekend on all categories.</div><button class="kcp" style="background:#7c3aed">Copy Code</button><div class="ke">Every Weekend</div></div>
+      </div>
+      <div class="kc" onclick="cc2('DAIRY10')">
+        <div class="kl" style="background:#0ea5e9"><div class="kp">10%</div><div class="kt">OFF</div></div>
+        <div class="kds"></div>
+        <div class="kr"><div class="kco" style="color:#0ea5e9">DAIRY10</div><div class="kd">Extra 10% off on all dairy items.</div><button class="kcp" style="background:#0ea5e9">Copy Code</button><div class="ke">Expires: 28 Apr 2026</div></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="overlay" id="ov" onclick="closeAll()"></div>
+
+<div class="cp2" id="pan">
+  <div class="ch">
+    <h3>🛒 Your Cart</h3>
+    <button class="cc" onclick="tc(event)">✕</button>
+  </div>
+  <div class="ci" id="ci">
+    <div class="ce">
+      <div class="be">🛒</div>
+      <p style="font-weight:700;font-size:15px;color:#374151;margin-bottom:5px">Your cart is empty</p>
+      <p>Add items to get started!</p>
+    </div>
+  </div>
+  <div class="cf2" id="cf" style="display:none">
+    <div class="csm">
+      <div class="cr"><span>Subtotal</span><span id="cs">₹0</span></div>
+      <div class="cr sv"><span>You Save 🎉</span><span id="csav">₹0</span></div>
+      <div class="cr"><span>Delivery</span><span id="cd">₹40</span></div>
+      <div class="cr tt"><span>Total</span><span id="ct">₹0</span></div>
+    </div>
+    <button class="cob" onclick="openPayment()">💳 Proceed to Payment →</button>
+  </div>
+</div>
+
+<div class="acc-panel" id="accPanel">
+  <div class="acc-head">
+    <h3 id="accHeadTitle">My Account</h3>
+    <button class="acc-close" onclick="closeAcc()">✕</button>
+  </div>
+
+  <div id="authView">
+    <div class="auth-tabs">
+      <div class="auth-tab on" id="tab-login" onclick="switchTab('login')">Login</div>
+      <div class="auth-tab" id="tab-reg" onclick="switchTab('reg')">Register</div>
+    </div>
+
+    <div class="auth-body" id="loginForm">
+      <label class="lbl">Email Address</label>
+      <input class="inp" type="email" id="loginEmail" placeholder="you@example.com" />
+      <label class="lbl">Password</label>
+      <div class="inp-row">
+        <input class="inp" type="password" id="loginPass" placeholder="Enter your password" />
+        <button class="eye-btn" onclick="togglePw('loginPass',this)">👁</button>
+      </div>
+      <div style="text-align:right;margin-bottom:14px">
+        <span style="font-size:12px;color:var(--g);cursor:pointer;font-weight:600">Forgot password?</span>
+      </div>
+      <button class="auth-btn" onclick="doLogin()">Login to FreshMart</button>
+      <div class="auth-divider">or continue with</div>
+      <button class="social-btn" onclick="socialLogin('Google')">🌐 Continue with Google</button>
+      <button class="social-btn" onclick="socialLogin('Phone')">📱 Continue with Phone OTP</button>
+      <div class="auth-link">No account? <span onclick="switchTab('reg')">Register now</span></div>
+    </div>
+
+    <div class="auth-body" id="regForm" style="display:none">
+      <label class="lbl">Full Name</label>
+      <input class="inp" type="text" id="regName" placeholder="Aarav Sharma" />
+      <label class="lbl">Email Address</label>
+      <input class="inp" type="email" id="regEmail" placeholder="you@example.com" />
+      <label class="lbl">Phone Number</label>
+      <input class="inp" type="tel" id="regPhone" placeholder="+91 98765 43210" />
+      <label class="lbl">Password</label>
+      <div class="inp-row">
+        <input class="inp" type="password" id="regPass" placeholder="Create a strong password" />
+        <button class="eye-btn" onclick="togglePw('regPass',this)">👁</button>
+      </div>
+      <button class="auth-btn" onclick="doRegister()">Create Account</button>
+      <div class="auth-link">Already have an account? <span onclick="switchTab('login')">Login</span></div>
+    </div>
+  </div>
+
+  <div id="profileView" style="display:none;position:relative;overflow:hidden">
+    <div id="profileMain">
+      <div class="profile-avatar" id="profileAvatar">A</div>
+      <div class="profile-name" id="profileName">Aarav Sharma</div>
+      <div class="profile-email" id="profileEmail">aarav@example.com</div>
+
+      <div class="profile-section">
+        <h4>My Orders</h4>
+        <div class="orders-list" id="ordersList">
+          <div class="order-item">
+            <div class="order-header"><span class="order-id">#FM-2026-0041</span><span class="order-status delivered">Delivered</span></div>
+            <div class="order-items-txt">Bananas, Milk, Eggs, Bread</div>
+            <div class="order-total">₹287</div>
+          </div>
+          <div class="order-item">
+            <div class="order-header"><span class="order-id">#FM-2026-0039</span><span class="order-status transit">In Transit</span></div>
+            <div class="order-items-txt">Mango, Peanut Butter, Green Tea</div>
+            <div class="order-total">₹337</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-section">
+        <h4>Account Settings</h4>
+        <div class="profile-row" onclick="openLocModal();closeAcc()"><div class="picon">📍</div><span>Saved Addresses</span><span class="arr">›</span></div>
+        <div class="profile-row" onclick="openPayMethods()"><div class="picon">💳</div><span>Payment Methods</span><span class="arr">›</span></div>
+        <div class="profile-row" onclick="toast('🎟️ Your coupons will appear here!')"><div class="picon">🎟️</div><span>My Coupons</span><span class="order-badge" style="margin-right:4px">4</span><span class="arr">›</span></div>
+        <div class="profile-row" onclick="toast('🔔 Notification settings coming soon!')"><div class="picon">🔔</div><span>Notifications</span><span class="arr">›</span></div>
+        <div class="profile-row" onclick="openEditProfile()"><div class="picon">✏️</div><span>Edit Profile</span><span class="arr">›</span></div>
+      </div>
+      <button class="logout-btn" onclick="doLogout()">🚪 Logout</button>
+    </div>
+
+    <div class="sub-panel" id="editProfilePanel">
+      <div class="sub-head">
+        <button class="sub-back" onclick="closeSubPanel('editProfilePanel')">‹</button>
+        <h4>Edit Profile</h4>
+      </div>
+      <div class="sub-body">
+        <div class="ep-avatar-wrap">
+          <div class="ep-avatar" id="epAvatar" onclick="toast('📷 Photo upload coming soon!')">
+            A
+            <div class="ep-avatar-badge">✏️</div>
+          </div>
+          <span class="ep-avatar-hint">Tap to change photo</span>
+        </div>
+
+        <label class="lbl">Full Name</label>
+        <input class="inp" type="text" id="epName" placeholder="Your full name" />
+
+        <label class="lbl">Email Address</label>
+        <input class="inp" type="email" id="epEmail" placeholder="you@example.com" />
+
+        <label class="lbl">Phone Number</label>
+        <input class="inp" type="tel" id="epPhone" placeholder="+91 98765 43210" />
+
+        <label class="lbl">Date of Birth</label>
+        <input class="inp" type="date" id="epDob" />
+
+        <label class="lbl">Gender</label>
+        <select class="inp" id="epGender" style="margin-bottom:14px;cursor:pointer">
+          <option value="">Select gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Prefer not to say</option>
+        </select>
+
+        <label class="lbl">New Password <span style="font-weight:400;color:var(--g4)">(leave blank to keep current)</span></label>
+        <div class="inp-row">
+          <input class="inp" type="password" id="epPass" placeholder="Enter new password" />
+          <button class="eye-btn" onclick="togglePw('epPass',this)">👁</button>
+        </div>
+
+        <button class="ep-save-btn" onclick="saveProfile()">Save Changes</button>
+      </div>
+    </div>
+
+    <div class="sub-panel" id="payMethodsPanel">
+      <div class="sub-head">
+        <button class="sub-back" onclick="closeSubPanel('payMethodsPanel')">‹</button>
+        <h4>Payment Methods</h4>
+      </div>
+      <div class="sub-body">
+        <div class="pm-section-title">Saved Cards</div>
+        <div id="savedCardsList">
+          <div class="pm-saved-card" id="scard-1">
+            <div class="pm-card-icon">💳</div>
+            <div class="pm-card-info">
+              <div class="pm-card-label">VISA •••• 4242</div>
+              <div class="pm-card-sub">Expires 08 / 27 &nbsp;·&nbsp; Aarav Sharma</div>
+              <span class="pm-card-default">Default</span>
+            </div>
+            <div class="pm-card-actions">
+              <button class="pm-act-btn del" onclick="deleteCard('scard-1')">Remove</button>
+            </div>
+          </div>
+          <div class="pm-saved-card" id="scard-2">
+            <div class="pm-card-icon">💳</div>
+            <div class="pm-card-info">
+              <div class="pm-card-label">Mastercard •••• 8891</div>
+              <div class="pm-card-sub">Expires 03 / 26 &nbsp;·&nbsp; Aarav Sharma</div>
+            </div>
+            <div class="pm-card-actions">
+              <button class="pm-act-btn set-def" onclick="setDefault('scard-2')">Set Default</button>
+              <button class="pm-act-btn del" onclick="deleteCard('scard-2')">Remove</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="add-pm-btn" onclick="toggleAddCardForm()">
+          <span style="font-size:18px">＋</span> Add New Card
+        </button>
+
+        <div class="add-card-form" id="addCardForm">
+          <label class="lbl">Card Number</label>
+          <input class="inp" type="text" id="ncNumber" placeholder="1234  5678  9012  3456" maxlength="22" oninput="fmtCard(this)" />
+          <label class="lbl">Cardholder Name</label>
+          <input class="inp" type="text" id="ncName" placeholder="Name as on card" />
+          <div class="add-card-row">
+            <div>
+              <label class="lbl">Expiry</label>
+              <input class="inp" type="text" id="ncExp" placeholder="MM / YY" maxlength="7" oninput="fmtExp(this)" />
+            </div>
+            <div>
+              <label class="lbl">CVV</label>
+              <input class="inp" type="password" id="ncCvv" placeholder="•••" maxlength="3" />
+            </div>
+          </div>
+          <button class="save-card-btn" onclick="saveNewCard()">Save Card</button>
+        </div>
+
+        <div class="pm-section-title" style="margin-top:22px">UPI Accounts</div>
+        <div id="savedUpiList">
+          <div class="pm-saved-card" id="supi-1">
+            <div class="pm-card-icon">📱</div>
+            <div class="pm-card-info">
+              <div class="pm-card-label">aarav@okaxis</div>
+              <div class="pm-card-sub">GPay &nbsp;·&nbsp; Linked</div>
+              <span class="pm-card-default">Default</span>
+            </div>
+            <div class="pm-card-actions">
+              <button class="pm-act-btn del" onclick="deleteCard('supi-1')">Remove</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="add-pm-btn" onclick="toast('📱 Link UPI ID coming soon!')">
+          <span style="font-size:18px">＋</span> Add UPI ID
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="loc-modal" id="locModal">
+  <div class="loc-head">
+    <h3>📍 Choose Delivery Location</h3>
+    <button class="loc-close" onclick="closeLocModal()">✕</button>
+  </div>
+
+  <div class="loc-body">
+    <div class="loc-top">
+      <div class="loc-search">
+        <input type="text" id="locSearchInp" placeholder="Search area, street, landmark…" oninput="searchLoc(this.value)" />
+        <button class="loc-gps-btn" onclick="useGPS()">📡 Use my location</button>
+      </div>
+      <div class="saved-addrs">
+        <div class="sa-chip active" id="chip-home" onclick="selectChip('home',28.6139,77.2090,'Connaught Place, New Delhi')">🏠 Home</div>
+        <div class="sa-chip" id="chip-work" onclick="selectChip('work',28.5355,77.3910,'Sector 62, Noida')">🏢 Work</div>
+        <div class="sa-chip" id="chip-dwarka" onclick="selectChip('dwarka',28.5921,77.0460,'Dwarka, New Delhi')">📍 Dwarka</div>
+        <div class="sa-chip" id="chip-gurgaon" onclick="selectChip('gurgaon',28.4595,77.0266,'DLF Phase 1, Gurugram')">📍 Gurgaon</div>
+        <div class="sa-chip" id="chip-faridabad" onclick="selectChip('faridabad',28.4089,77.3178,'Sector 15, Faridabad')">📍 Faridabad</div>
+      </div>
+    </div>
+
+    <div class="loc-mid">
+      <div id="mapEl"></div>
+      <div class="loc-sidebar">
+        <div class="zone-list">
+          <h4>Delivery Zones</h4>
+          <div class="zone-item sel" id="zone-cp" onclick="selectZone(this,'Connaught Place',28.6139,77.2090,'18 min')">
+            <div class="zone-dot" style="background:#2d9e5f"></div>
+            <div class="zone-info"><div class="zone-name">Connaught Place</div><div class="zone-eta">⏱ 18 min avg</div></div>
+            <span class="zone-status live">Live</span>
+          </div>
+          <div class="zone-item" id="zone-noida" onclick="selectZone(this,'Sector 62, Noida',28.5355,77.3910,'25 min')">
+            <div class="zone-dot" style="background:#2d9e5f"></div>
+            <div class="zone-info"><div class="zone-name">Noida Sector 62</div><div class="zone-eta">⏱ 25 min avg</div></div>
+            <span class="zone-status live">Live</span>
+          </div>
+          <div class="zone-item" id="zone-dwarka" onclick="selectZone(this,'Dwarka, New Delhi',28.5921,77.0460,'22 min')">
+            <div class="zone-dot" style="background:#2d9e5f"></div>
+            <div class="zone-info"><div class="zone-name">Dwarka</div><div class="zone-eta">⏱ 22 min avg</div></div>
+            <span class="zone-status live">Live</span>
+          </div>
+          <div class="zone-item" id="zone-gurgaon" onclick="selectZone(this,'DLF Phase 1, Gurugram',28.4595,77.0266,'30 min')">
+            <div class="zone-dot" style="background:#f97316"></div>
+            <div class="zone-info"><div class="zone-name">Gurugram</div><div class="zone-eta">⏱ 30 min avg</div></div>
+            <span class="zone-status live">Live</span>
+          </div>
+          <div class="zone-item" id="zone-faridabad" onclick="selectZone(this,'Sector 15, Faridabad',28.4089,77.3178,'35 min')">
+            <div class="zone-dot" style="background:#f97316"></div>
+            <div class="zone-info"><div class="zone-name">Faridabad</div><div class="zone-eta">⏱ 35 min avg</div></div>
+            <span class="zone-status live">Live</span>
+          </div>
+          <div class="zone-item" id="zone-meerut" onclick="selectZone(this,'Meerut City',28.9845,77.7064,'Coming soon')">
+            <div class="zone-dot" style="background:#9ca3af"></div>
+            <div class="zone-info"><div class="zone-name">Meerut</div><div class="zone-eta">⏱ Coming soon</div></div>
+            <span class="zone-status soon">Soon</span>
+          </div>
+          <div class="zone-item" id="zone-agra" onclick="selectZone(this,'Agra',27.1767,78.0081,'Coming soon')">
+            <div class="zone-dot" style="background:#9ca3af"></div>
+            <div class="zone-info"><div class="zone-name">Agra</div><div class="zone-eta">⏱ Coming soon</div></div>
+            <span class="zone-status soon">Soon</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="loc-footer">
+      <div class="loc-selected">Delivering to: <b id="locFooterText">Connaught Place, New Delhi</b></div>
+      <button class="loc-confirm" onclick="confirmLocation()">Confirm Location ✓</button>
+    </div>
+  </div>
+</div>
+
+<div class="pay-modal" id="payModal">
+  <div id="payNormal" style="display:flex;flex-direction:column;height:100%">
+    <div class="pay-head">
+      <h3>🔒 Secure Payment</h3>
+      <button class="pay-close" onclick="closePayment()">✕</button>
+    </div>
+
+    <div class="pay-body">
+      <div class="pay-summary">
+        <div><div class="slabel">Order Total</div><div class="amt" id="payAmt">₹0</div></div>
+        <div style="text-align:right"><div class="slabel">Items</div><div style="font-size:14px;font-weight:700" id="payItems">0 items</div></div>
+      </div>
+
+      <div style="font-size:13px;font-weight:700;margin-bottom:10px">📍 Delivery Address</div>
+      <div class="addr-box sel" onclick="closePayment();openLocModal()">
+        <div class="addr-title">🏠 Home</div>
+        <div class="addr-text" id="payAddr">Connaught Place, New Delhi</div>
+      </div>
+
+      <div style="font-size:13px;font-weight:700;margin-bottom:10px">🎟️ Apply Coupon</div>
+      <div class="coupon-row">
+        <input class="inp" type="text" id="payCode" placeholder="Enter coupon code" oninput="this.value=this.value.toUpperCase()" />
+        <button class="coupon-apply" onclick="applyCoupon()">Apply</button>
+      </div>
+      <div class="coupon-applied" id="couponApplied">✅ Coupon applied! You save ₹50</div>
+
+      <div class="pm-label">💳 Choose Payment Method</div>
+      <div class="pm-grid">
+        <div class="pm-card sel" onclick="selPM(this,'card')"><div class="pm-icon">💳</div><div class="pm-name">Credit / Debit Card</div><div class="pm-sub">Visa · Mastercard · RuPay</div></div>
+        <div class="pm-card" onclick="selPM(this,'upi')"><div class="pm-icon">📱</div><div class="pm-name">UPI</div><div class="pm-sub">GPay · PhonePe · Paytm</div></div>
+        <div class="pm-card" onclick="selPM(this,'nb')"><div class="pm-icon">🏦</div><div class="pm-name">Net Banking</div><div class="pm-sub">All major banks</div></div>
+        <div class="pm-card" onclick="selPM(this,'wallet')"><div class="pm-icon">👛</div><div class="pm-name">Wallets</div><div class="pm-sub">Paytm · Amazon Pay</div></div>
+        <div class="pm-card" onclick="selPM(this,'cod')" style="grid-column:span 2"><div class="pm-icon">💵</div><div class="pm-name">Cash on Delivery</div><div class="pm-sub">Pay when your order arrives</div></div>
+      </div>
+
+      <div class="pm-detail on card-form" id="det-card">
+        <div class="card-icons">
+          <span class="card-chip">VISA</span>
+          <span class="card-chip">Mastercard</span>
+          <span class="card-chip">RuPay</span>
+          <span class="card-chip" style="background:var(--gl);color:var(--g)">🔒 3D Secure</span>
+        </div>
+        <label class="lbl">Card Number</label>
+        <input class="inp" type="text" placeholder="1234  5678  9012  3456" maxlength="22" oninput="fmtCard(this)" />
+        <label class="lbl">Cardholder Name</label>
+        <input class="inp" type="text" placeholder="Name as on card" />
+        <div class="card-row">
+          <div><label class="lbl">Expiry Date</label><input class="inp" type="text" placeholder="MM / YY" maxlength="7" oninput="fmtExp(this)" /></div>
+          <div><label class="lbl">CVV</label><input class="inp" type="password" placeholder="•••" maxlength="3" /></div>
+        </div>
+        <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--g6);cursor:pointer">
+          <input type="checkbox" checked /> Save card for future payments
+        </label>
+      </div>
+
+      <div class="pm-detail" id="det-upi">
+        <div style="font-size:13px;font-weight:700;margin-bottom:10px">Select UPI App</div>
+        <div class="upi-apps">
+          <div class="upi-app sel" onclick="selUpi(this)"><span class="ap">🟢</span>GPay</div>
+          <div class="upi-app" onclick="selUpi(this)"><span class="ap">🟣</span>PhonePe</div>
+          <div class="upi-app" onclick="selUpi(this)"><span class="ap">🔵</span>Paytm</div>
+          <div class="upi-app" onclick="selUpi(this)"><span class="ap">🟠</span>BHIM</div>
+        </div>
+        <label class="lbl">Or enter UPI ID directly</label>
+        <input class="inp" type="text" placeholder="yourname@okaxis" />
+      </div>
+
+      <div class="pm-detail" id="det-nb">
+        <div style="font-size:13px;font-weight:700;margin-bottom:10px">Select Your Bank</div>
+        <div class="nb-list">
+          <div class="nb-item sel" onclick="selNb(this)">🏦 SBI</div>
+          <div class="nb-item" onclick="selNb(this)">🏦 HDFC</div>
+          <div class="nb-item" onclick="selNb(this)">🏦 ICICI</div>
+          <div class="nb-item" onclick="selNb(this)">🏦 Axis</div>
+          <div class="nb-item" onclick="selNb(this)">🏦 Kotak</div>
+          <div class="nb-item" onclick="selNb(this)">🏦 PNB</div>
+        </div>
+        <label class="lbl">Net Banking User ID</label>
+        <input class="inp" type="text" placeholder="Enter your bank user ID" />
+      </div>
+
+      <div class="pm-detail" id="det-wallet">
+        <div class="wallet-list">
+          <div class="wallet-item sel" onclick="selWallet(this)"><span class="wi">💙</span><span class="wn">Paytm Wallet</span><span class="wallet-bal">Bal: ₹342</span></div>
+          <div class="wallet-item" onclick="selWallet(this)"><span class="wi">🟠</span><span class="wn">Amazon Pay</span><span class="wallet-bal">Bal: ₹150</span></div>
+          <div class="wallet-item" onclick="selWallet(this)"><span class="wi">🟢</span><span class="wn">MobiKwik</span><span class="wallet-bal">Bal: ₹0</span></div>
+          <div class="wallet-item" onclick="selWallet(this)"><span class="wi">🔵</span><span class="wn">FreeCharge</span><span class="wallet-bal">Bal: ₹88</span></div>
+        </div>
+      </div>
+
+      <div class="pm-detail" id="det-cod">
+        <div class="cod-box">
+          <div class="cod-icon">💵</div>
+          <p>Pay with cash when your order is delivered to your door.</p>
+          <b>No extra charges for COD!</b>
+          <p style="margin-top:8px;font-size:11px;color:var(--g4)">Please keep exact change ready for a smooth handover.</p>
+        </div>
+      </div>
+
+      <button class="pay-btn" id="payBtn" onclick="processPayment()">
+        🔒 Pay Securely &nbsp;<span id="payBtnAmt"></span>
+      </button>
+      <p style="text-align:center;font-size:11px;color:var(--g4);margin-top:10px">
+        256-bit SSL · PCI DSS Compliant · RBI Approved Gateway
+      </p>
+    </div>
+  </div>
+
+  <div class="pay-success" id="paySuccess">
+    <div class="success-circle">✅</div>
+    <h2>Order Placed!</h2>
+    <p class="sub-p">Your payment was successful.</p>
+    <p class="sub-p" style="color:var(--g4);font-size:13px">Estimated delivery in <b style="color:var(--g)">25–30 minutes</b></p>
+    <div class="order-num" id="successOrderNum">#FM-2026-0042</div>
+    <p style="font-size:13px;color:var(--g6)">A confirmation has been sent to your email.</p>
+    <button class="track-btn" onclick="closePayment()">📦 Track My Order</button>
+  </div>
+</div>
+
+<div class="tst" id="tst"></div>
+
+<footer>
+  <div class="fg">
+    <div class="fb">
+      <span class="logo">Fresh<s>Mart</s></span>
+      <p>Your neighborhood grocery store, now online. Delivering freshness to your doorstep in 30 minutes across Delhi NCR.</p>
+    </div>
+    <div class="fc"><h4>Quick Links</h4><a href="#">About Us</a><a href="#">Careers</a><a href="#">Blog</a><a href="#">Press</a></div>
+    <div class="fc"><h4>Support</h4><a href="#">Help Center</a><a href="#">Track Order</a><a href="#">Returns</a><a href="#">Contact Us</a></div>
+    <div class="fc"><h4>Contact</h4><a href="#">📞 1800-123-4567</a><a href="#">✉️ help@freshmart.in</a><a href="#">📍 Delhi, India</a></div>
+  </div>
+  <div class="fb2">
+    <span>© 2026 FreshMart. All rights reserved.</span>
+    <span>Privacy Policy · Terms of Service</span>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script src="script.js"></script>
+</body>
+</html>
